@@ -15,3 +15,13 @@ public class HelloTypes {
 
 private static final AmazonSimpleWorkflow swf = AmazonSimpleWorkflowClientBuilder.defaultClient();
 
+public static void registerDomain () {
+    try {
+        System.out.println("** Registering the domain '" + DOMAIN + "'.");
+        swf.registerDomain(new RegisterDomainRequest()
+            .withName(DOMAIN)
+            .withWorkflowExecutionRetentionPeriodInDays("1"));
+    } catch (DomainAlreadyExistsException e) {
+        System.out.println("** Domain already exists!");
+    }
+}
