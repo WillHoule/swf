@@ -25,3 +25,42 @@ public static void registerDomain () {
         System.out.println("** Domain already exists!");
     }
 }
+
+public static void registerActivityType() {
+    try {
+        System.out.println("** Registering the activity type '" + ACTIVITY +      "-" + ACTIVITY_VERSION + "'.");
+        swf.registerActivityType(new RegisterActivityTypeRequest()
+            .withDomain(DOMAIN)
+            .withName(ACTIVITY)
+            .withVersion(ACTIVITY_VERSION)
+            .withDefaultTaskList(new TaskList().withName(TASKLIST))
+            .withDefaultTaskScheduleToStartTimeout("30")
+            .withDefaultTaskStartToCloseTimeout("600")
+            .withDefaultTaskScheduleToCloseTimeout("630")
+            .withDefaultTaskHeartbeatTimeout("10"));
+    } catch (TypeAlreadyExistsException e) {
+        System.out.println("** Activity type already exists!");
+    }
+}
+
+public static void registerWorkflowType() {
+    try {
+        System.out.println("** Registering the workflow type '" + WORKFLOW +
+            "-" + WORKFLOW_VERSION + "'.");
+        swf.registerWorkflowType(new RegisterWorkflowTypeRequest()
+            .withDomain(DOMAIN)
+            .withName(WORKFLOW)
+            .withVersion(WORKFLOW_VERSION)
+            .withDefaultChildPolicy(ChildPolicy.TERMINATE)
+            .withDefaultTaskList(new TaskList().withName(TASKLIST))
+            .withDefaultTaskStartToCloseTimeout("30"));
+    } catch (TypeAlreadyExistsException e) {
+        System.out.println("** Workflow type already exists!")
+    }
+}
+
+public static void main(String[] args) {
+    registerDomain();
+    registerWorkflowType();
+    registerActivityType();
+}
